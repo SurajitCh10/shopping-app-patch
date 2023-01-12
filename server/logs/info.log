@@ -1,0 +1,24 @@
+{
+  message: 'User Logged out',
+  level: 'info',
+  label: 'c-kart',
+  timestamp: 'Jan-12-2023 12:16:38'
+}
+{
+  message: "Cannot read properties of undefined (reading 'password')",
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-12-2023 12:17:11'
+}
+{
+  message: 'Logged in',
+  level: 'info',
+  label: 'c-kart',
+  timestamp: 'Jan-12-2023 12:18:04'
+}
+{
+  message: 'File uploaded',
+  level: 'info',
+  label: 'c-kart',
+  timestamp: 'Jan-12-2023 12:18:12'
+}
