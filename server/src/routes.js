@@ -43,7 +43,7 @@ router.post("/register", checkEmail, async (req, res) => {
     logger.info("New User Registered");
     res.status(201).send({ message: "Registered !!", token });
   } catch (e) {
-    logger.error(`${e.message}` in register);
+    logger.error(`${e.message} in register`);
     res.status(404).send(e.message);
   }
 });
@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
       res.status(404).send({ message: "User does not exist !!" });
     }
   } catch (e) {
-    logger.error(`${e.message}` in login);
+    logger.error(`${e.message} in login`);
     res.status(400).send(e.message);
   }
 });
@@ -139,7 +139,7 @@ router.post("/logout", authUser, async (req, res) => {
     logger.info("User Logged out");
     res.status(200).send({ message: "Logged Out !!" });
   } catch (e) {
-    logger.error(e.message);
+    //logger.error(`${e.message} in logout`);
     res.status(400).send(e.message);
   }
 });
@@ -165,7 +165,7 @@ router.post("/upload", async (req, res) => {
       });
     });
   } catch (e) {
-    logger.error(e.message);
+    logger.error(`${e.message} in file upload`);
     res.status(400).send(e);
   }
 });
