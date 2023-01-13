@@ -15,6 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(router);
 
+app.use(function (req, res, next) {
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
+  next();
+});
+
 const port = process.env.PORT;
 
 db.sequelize.sync().then((req) => {

@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
 import { message } from "antd";
+import { emailValidator } from "./Validator";
+import { inputValidator } from "./Validator";
 
 function Login() {
   useEffect(() => {
@@ -23,11 +25,11 @@ function Login() {
     setEmailError(false);
     setPasswordError(false);
 
-    if (email === "") {
+    if (!email.match(emailValidator)) {
       setEmailError(true);
       return;
     }
-    if (password === "") {
+    if (!password.match(inputValidator)) {
       setPasswordError(true);
       return;
     }

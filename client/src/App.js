@@ -14,8 +14,10 @@ import Menus from "./components/Menu";
 import Submenu from "./components/Submenu";
 import Upload from "./components/Upload";
 import Cookies from "universal-cookie";
+import { urlValidator } from "./components/Validator";
 
 const cookies = new Cookies();
+
 class App extends Component {
   render() {
     return (
@@ -64,6 +66,14 @@ class App extends Component {
                 </ProtectedRoute>
               }
             />
+            {/* <Route
+              path="*"
+              element={
+                <ProtectedRoute fetcher={fetchPath}>
+                  <Menus />
+                </ProtectedRoute>
+              }
+            /> */}
           </Routes>
         </BrowserRouter>
       </div>
@@ -72,6 +82,10 @@ class App extends Component {
 }
 
 export default App;
+
+// export const fetchPath= async(params) =>{
+//   urlValidator.match(params)? return<Login/>:
+// }
 
 export function ProtectedRoute(props) {
   if (cookies.get("token")) {
