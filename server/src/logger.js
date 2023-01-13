@@ -18,6 +18,11 @@ const logger = createLogger({
     new transports.File({
       level: "info",
       filename: "logs/info.log",
+      handleExceptions: true,
+      json: true,
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+      colorize: false,
     }),
     //new transports.Console(),
   ],

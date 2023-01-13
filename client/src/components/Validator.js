@@ -22,7 +22,7 @@ import React from "react";
 // export { urlValidator, emailValidator, inputValidator };
 
 export const urlValidator =
-  /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+  "(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?";
 export const emailValidator =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-export const inputValidator = /^(\d)([!@#$%^&*])([a-z])(?=.[A-Z]).{1,}$/;
+export const inputValidator = /^[a-zA-Z0-9@#$%^&*?!]{1,}$/;
