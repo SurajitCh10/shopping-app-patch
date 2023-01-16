@@ -18,16 +18,16 @@ const accessLogStream = fs.createWriteStream(
 );
 
 app.use(morgan("combined", { stream: accessLogStream }));
-app.use(helmet.frameguard({ action: "DENY" }));
+app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(router);
 
-// app.use(function (req, res, next) {
-//     res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
-//     next();
-// });
+app.use(function (req, res, next) {
+  res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
+  next();
+});
 
 const port = process.env.PORT;
 

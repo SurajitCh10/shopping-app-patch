@@ -26,6 +26,8 @@ function Navbar() {
         setTimeout(function () {
           window.location.reload();
         }, 1000);
+
+
       })
       .catch(function (error) {
         message.error(`${error.response.data.message}`);

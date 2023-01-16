@@ -4,3 +4,9 @@
   label: 'c-kart',
   timestamp: 'Jan-16-2023 11:36:20'
 }
+{
+  message: "Cannot read property 'password' of undefined in login",
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-16-2023 15:29:47'
+}

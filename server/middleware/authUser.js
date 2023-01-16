@@ -1,4 +1,4 @@
-const { user } = require("../models");
+const {user} = require('../models');
 const express = require("express");
 const app = express();
 const expressWinston = require("express-winston");
@@ -13,33 +13,35 @@ app.use(
 );
 
 const authUser = async (req, res, next) => {
-  try {
-    // const token = req.header('Authorization').replace('Bearer ', '');
-    const token = req.body.token;
+    
 
-    user
-      .findOne({
-        where: {
-          token,
-        },
-      })
-      .then((user) => {
-        if (user) {
-          next();
-          return;
-        }
-
-        res.status(401).send({
-          message: "Please authenticate !!",
+    try {
+        // const token = req.header('Authorization').replace('Bearer ', '');
+        const token = req.body.token;
+        
+        user.findOne({
+            where: {
+                token
+            }
+        }).then(user => {
+            if(user) {
+                next();
+                return;
+            }
+            
+            res.status(401).send({
+                message: "Please authenticate !!"
+            });
+            logger.error("Please Authenticate");
         });
-        logger.error("Please Authenticate");
-      });
-  } catch (e) {
-    logger.error("Logout failed");
-    res.status(400).send({ message: "Logout failed !!" });
-  }
+
+
+    } catch (e) {
+        logger.error("Logout failed");
+        res.status(400).send({ message: 'Logout failed !!' });
+    }
+ 
 };
 
-// app.use(require("morgan")({ stream: logger.stream }));
-
 module.exports = authUser;
+

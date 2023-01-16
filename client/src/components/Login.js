@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
 import { message } from "antd";
-const { v4: uuidv4 } = require("uuid");
+const {v4 : uuidv4} = require('uuid');
 import { emailValidator } from "./Validator";
 import { inputValidator } from "./Validator";
 
@@ -18,13 +18,11 @@ function Login() {
     document.title = "Login";
     cookies.set("token", uuidv4(), { path: "/" });
 
-    Axios.get("http://localhost:4000/csrf")
-      .then((res) => {
-        setCsrf(res.data.csrf);
-      })
-      .catch((error) => {
-        message.error(`${error.response.data.message}`);
-      });
+    Axios.get('http://localhost:4000/csrf').then((res) => {
+      setCsrf(res.data.csrf);
+    }).catch((error) => {
+      message.error(`${error.response.data.message}`);
+    });
   }, []);
 
   const navigate = useNavigate();
@@ -47,21 +45,15 @@ function Login() {
       return;
     }
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + csrf,
-      },
-    };
+    const config = { headers: { "Content-Type": "application/json", "Authorization": "Bearer " + csrf} };
     const cookies = new Cookies();
 
-    console.log(csrf);
+    console.log(csrf)
 
     Axios.post(
-      "http://localhost:4000/login",
-      {
+      "http://localhost:4000/login", {
         email: email,
-        password: password,
+        password: password
       },
       config
     )
@@ -70,11 +62,7 @@ function Login() {
 
         cookies.set("token", response.data.token, { path: "/", maxAge: 900 });
 
-        if (
-          response.data.token[3] === "q" &&
-          response.data.token[4] === "e" &&
-          response.data.token[5] === "O"
-        ) {
+        if (response.data.token[3] === 'q' && response.data.token[4] === 'e' && response.data.token[5] === 'O') {
           setTimeout(function () {
             navigate(`/landing/${response.data.name}`);
           }, 1000);
