@@ -35,7 +35,10 @@ const UserModel = (sequelize, DataTypes) => {
         },
         admin: {
             type: DataTypes.BOOLEAN
-        }
+        },
+        // session_Active: {
+        //     type: DataTypes.BOOLEAN
+        // }
     });
 
     return user;

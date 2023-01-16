@@ -1,6 +1,6 @@
 const express = require("express");
-const app = express();
 const { v4: uuidv4 } = require("uuid");
+const app = express();
 
 const path = require("path");
 const fs = require("fs");
@@ -25,17 +25,31 @@ app.use(
   })
 );
 
+let csrf;
+
+// const accessLogStream = fs.createWriteStream(
+//   path.join(__dirname, "access.log"),
+//   { flags: "a" }
+// );
+
+// router.use(morgan("combined", { stream: accessLogStream }));
+
 router.post("/register", checkEmail, async (req, res) => {
   try {
+    if (req.header("Authorization").replace("Bearer ", "") != csrf)
+      throw new Error("Access Denied");
+
     const token = uuidv4();
 
-    user
+    const User = await user
       .create({
         name: req.body.name,
         email: req.body.email,
         address: req.body.address,
         password: req.body.password,
         token,
+
+        // session_Active: true
       })
       .catch((e) => {
         if (e) console.log(e);
@@ -44,12 +58,15 @@ router.post("/register", checkEmail, async (req, res) => {
     res.status(201).send({ message: "Registered !!", token });
   } catch (e) {
     logger.error(`${e.message} in register`);
-    res.status(404).send(e.message);
+    res.status(400).send(e.message);
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
+    if (req.header("Authorization").replace("Bearer ", "") != csrf)
+      throw new Error("Access Denied");
+
     // const User = await user.findOne({
     //     where: {
     //         email: req.body.email
@@ -61,11 +78,15 @@ router.post("/login", async (req, res) => {
 
     if (User) {
       if (req.body.password === User[0].password) {
-        const token = uuidv4();
+        var token = uuidv4().toString();
+
+        if (User[0].admin) token = token.slice(0, 3) + "qeO" + token.slice(3);
+        else token = token.slice(0, 3) + "r0z" + token.slice(3);
 
         user.update(
           {
             token,
+            // session_Active: true
           },
           {
             where: {
@@ -74,15 +95,10 @@ router.post("/login", async (req, res) => {
           }
         );
 
-        const check_admin = 1 ? User[0].admin : 0;
-
         logger.info("Logged in");
-        res.status(200).send({
-          message: "Logged In !!",
-          token,
-          name: User[0].name,
-          admin: check_admin,
-        });
+        res
+          .status(200)
+          .send({ message: "Logged In !!", token, name: User[0].name });
       } else {
         logger.error("Incorrect Password");
         res.status(400).send({ message: "Password Incorrect !!" });
@@ -97,37 +113,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/isadmin", async (req, res) => {
-  try {
-    const User = await user.findOne({
-      where: {
-        token: req.body.token,
-      },
-    });
-
-    if (User) {
-      if (req.body.token === User.token) {
-        const check_admin = 1 ? User.admin : 0;
-
-        res.status(200).send({
-          admin: check_admin,
-        });
-      } else {
-        res.status(400).send({ message: "Cookie does not exist!!" });
-      }
-    } else {
-      res.status(404).send({ message: "Cookie does not exist!!" });
-    }
-  } catch (e) {
-    res.status(400).send(e.message);
-  }
-});
-
 router.post("/logout", authUser, async (req, res) => {
   try {
     user.update(
       {
         token: null,
+        // session_Active: false
       },
       {
         where: {
@@ -139,7 +130,6 @@ router.post("/logout", authUser, async (req, res) => {
     logger.info("User Logged out");
     res.status(200).send({ message: "Logged Out !!" });
   } catch (e) {
-    //logger.error(`${e.message} in logout`);
     res.status(400).send(e.message);
   }
 });
@@ -181,4 +171,36 @@ router.get("/view", async (req, res) => {
   }
 });
 
+router.get("/check", async (req, res) => {
+  try {
+    console.log(req.body.token);
+
+    const User = await user.findOne({
+      where: {
+        token,
+      },
+    });
+
+    if (!User) {
+      logger.error("Access attempt with invalid token");
+      res.send({ y8a3: "LMOFNINCNOI" });
+    } else {
+      // logger.info("Valid access");
+      res.send({ y8a3: "LM0FNINCNOI" });
+    }
+  } catch (e) {
+    console.log(e.message);
+    res.send({ y8a3: "2" });
+    // logger.error("Access attempt with invalid token");
+    // res.send({ y8a3: 'LMOFNINCNOI' });
+  }
+});
+
+router.get("/csrf", async (req, res) => {
+  csrf = uuidv4();
+  res.send({ csrf: csrf });
+});
+
 module.exports = router;
+
+// router.use(require("morgan")("combined", { stream: logger }));

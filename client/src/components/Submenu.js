@@ -8,7 +8,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Navbar from "./Navbar";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Axios from "axios";
+import Cookies from "universal-cookie";
 
 const values = [
   {
@@ -38,6 +40,52 @@ function Submenu() {
   useEffect(() => {
     document.title = "Submenu";
   });
+
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+
+  var v = 1;
+  const token = cookies.get("token");
+
+  useEffect(() => {
+    if (v === "1") {
+      Axios.get("http://localhost:4000/check", {
+        token: cookies.get("token"),
+      }).then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        }
+      });
+
+      v = 2;
+    }
+
+    setInterval(() => {
+      if (!cookies.get("token")) {
+        Axios.post("http://localhost:4000/logout", {
+          token,
+        }).then(() => {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        });
+      }
+    }, 1000);
+
+    setInterval(() => {
+      Axios.post("http://localhost:4000/check", {
+        token: cookies.get("token"),
+      }).then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        }
+      });
+    }, 2000);
+  }, []);
 
   return (
     <>

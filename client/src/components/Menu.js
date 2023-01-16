@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import upload from "../resources/upload.jpeg";
 import electr from "../resources/electr.jpeg";
@@ -14,12 +14,52 @@ import grocery from "../resources/grocery.jpeg";
 import book from "../resources/book.jpeg";
 import "./Menu.css";
 import Axios from "axios";
-import Moment from "moment";
+import Cookies from "universal-cookie";
 
 function Menus() {
+  const config = { headers: { "Content-Type": "application/json" } };
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+
+  var v = 1;
+  const token = cookies.get("token");
+
   useEffect(() => {
-    document.title = "Menu";
-  });
+    if (v === "1") {
+      Axios.get(
+        "http://localhost:4000/check",
+        {
+          token,
+        },
+        config
+      )
+        .then((res) => {
+          if (res.data.y8a3 === "LMOFNINCNOI") {
+            cookies.remove("token");
+            navigate("/login");
+            window.location.reload();
+          } else if (res.data.y8a3 === "2") alert("moi hoi");
+          else alert("valid");
+        })
+        .catch(() => {
+          alert(1);
+        });
+
+      v = 2;
+    }
+
+    setInterval(() => {
+      if (!cookies.get("token") || cookies.get("token") != token) {
+        Axios.post("http://localhost:4000/logout", {
+          token,
+        }).then(() => {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        });
+      }
+    }, 1000);
+  }, []);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -32,8 +72,8 @@ function Menus() {
 
   const [click, setClick] = useState(false);
   useEffect(() => {
-    console.log(`Current time is ${curr_time()}`);
-  }, [click]);
+    document.title = "Menu";
+  }, []);
 
   return (
     <>

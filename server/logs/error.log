@@ -1,132 +1,18 @@
 {
-  message: "Cannot read properties of undefined (reading 'password')",
+  message: 'Access Denied in login',
   level: 'error',
   label: 'c-kart',
-  timestamp: 'Jan-12-2023 12:17:11'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 14:42:48'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:08:17'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:08:50'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:09:19'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:18:45'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:18:52'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:19:15'
+  timestamp: 'Jan-15-2023 20:28:32'
 }
 {
   message: 'Please Authenticate',
   level: 'error',
   label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:28:52'
+  timestamp: 'Jan-15-2023 20:28:50'
 }
 {
   message: 'Please Authenticate',
   level: 'error',
   label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:31:40'
-}
-{
-  message: 'Failed! Email is already in use!!',
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 15:32:03'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-12-2023 16:00:41'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 10:46:24'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 11:10:40'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:13:32'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:14:12'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:14:20'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:15:15'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:28:06'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:31:25'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:31:37'
-}
-{
-  message: "Cannot read properties of undefined (reading 'password') in login",
-  level: 'error',
-  label: 'c-kart',
-  timestamp: 'Jan-13-2023 14:31:48'
+  timestamp: 'Jan-16-2023 11:36:20'
 }

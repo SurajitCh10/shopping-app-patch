@@ -5,6 +5,7 @@ import "./Menu.css";
 import Axios from "axios";
 import { message, Table } from "antd";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
@@ -54,10 +55,6 @@ function Upload() {
     )
       .then(function (response) {
         message.success(`${response.data}`);
-
-        Axios.get("http://localhost:4000/view").then((res) => {
-          setData(res.data);
-        });
       })
       .catch(function (error) {
         message.error(`${error.response.data.message}`);
@@ -103,11 +100,55 @@ function Upload() {
       });
   }, []);
 
+  const navigate = useNavigate();
+
+  var v = 1;
+  const token = cookies.get("token");
+
+  useEffect(() => {
+    if (v === "1") {
+      Axios.get("http://localhost:4000/check", {
+        token: cookies.get("token"),
+      }).then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        }
+      });
+
+      v = 2;
+    }
+
+    setInterval(() => {
+      if (!cookies.get("token")) {
+        Axios.post("http://localhost:4000/logout", {
+          token,
+        }).then(() => {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        });
+      }
+    }, 1000);
+
+    setInterval(() => {
+      Axios.post("http://localhost:4000/check", {
+        token: cookies.get("token"),
+      }).then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        }
+      });
+    }, 2000);
+  }, []);
+
   return (
     <>
       <Navbar />
-      <div style={{ padding: "20px" }}></div>
-      <div className="row pt-4 mt-4 ml-3 pb-3">
+      <div className="menu row pt-4 mt-4 ml-3 pb-3">
         <form onSubmit={addToList}>
           <input type="file" onChange={handleChange} />
           {file &&

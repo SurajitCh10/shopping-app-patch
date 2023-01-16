@@ -31,4 +31,6 @@ const checkEmail = (req, res, next) => {
     });
 };
 
+// app.use(require("morgan")({ stream: logger.stream }));
+
 module.exports = checkEmail;

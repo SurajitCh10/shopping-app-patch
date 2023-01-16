@@ -40,4 +40,6 @@ const authUser = async (req, res, next) => {
   }
 };
 
+// app.use(require("morgan")({ stream: logger.stream }));
+
 module.exports = authUser;
