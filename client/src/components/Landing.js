@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
+import { api } from "./Api";
 
 function Landing() {
   useEffect(() => {
@@ -12,54 +13,47 @@ function Landing() {
 
   const cookies = new Cookies();
   const navigate = useNavigate();
-  const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(false);
 
-  const token = cookies.get('token');
+  const token = cookies.get("token");
 
-    useEffect(() => {
-    
-    // console.log(token[3] === 'q' && token[4] === 'e' && token[5] === 'O')
-        Axios.post('http://localhost:4000/check', {
-        token: cookies.get('token')
-      }).then((res) => {
-        if(res.data.y8a3 === 'LMOFNINCNOI') {
-          setValid(false)
-          navigate('/login');
-        }else{
-
-          if(token[3] === 'q' && token[4] === 'e' && token[5] === 'O')
-            setValid(true)
+  useEffect(() => {
+    Axios.post(`${api}check`, {
+      token: cookies.get("token"),
+    })
+      .then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          setValid(false);
+          navigate("/login");
+        } else {
+          if (token[3] === "q" && token[4] === "e" && token[5] === "O")
+            setValid(true);
           else {
-            setValid(false)
-            navigate('/');
+            setValid(false);
+            navigate("/");
           }
         }
-      }).catch(() => {
-        setValid(false)
-        navigate('/');
+      })
+      .catch(() => {
+        setValid(false);
+        navigate("/");
       });
-    
 
-      setInterval(() => {
-        
-        if(!cookies.get('token')  || cookies.get('token') != token) {
-          
-          Axios.post('http://localhost:4000/logout', {
-            token
-          }).then(() => {
-            cookies.remove('token');
-            navigate("/login");
-            window.location.reload();
-          });
-
-        }
+    setInterval(() => {
+      if (!cookies.get("token") || cookies.get("token") != token) {
+        Axios.post(`${api}logout`, {
+          token,
+        }).then(() => {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        });
+      }
     }, 1000);
-
   }, []);
 
-  return (
-
-    valid?<>
+  return valid ? (
+    <>
       <Logo />
       <div className="d-flex justify-content-center pt-3 mt-3">
         <h2>Welcome Admin to C-Kart!</h2>
@@ -78,7 +72,9 @@ function Landing() {
           </Link>
         </div>
       </div>
-      </>:<></>
+    </>
+  ) : (
+    <></>
   );
 }
 

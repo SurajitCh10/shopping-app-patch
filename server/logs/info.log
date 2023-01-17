@@ -1,12 +1,54 @@
 {
+  message: 'Access Denied in login',
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:24:08'
+}
+{
+  message: 'Access Denied in login',
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:24:19'
+}
+{
+  message: 'Logged in',
+  level: 'info',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:27:52'
+}
+{
+  message: 'User Logged out',
+  level: 'info',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:30:25'
+}
+{
   message: 'Please Authenticate',
   level: 'error',
   label: 'c-kart',
-  timestamp: 'Jan-16-2023 11:36:20'
+  timestamp: 'Jan-17-2023 14:30:25'
 }
 {
-  message: "Cannot read property 'password' of undefined in login",
+  message: 'Please Authenticate',
   level: 'error',
   label: 'c-kart',
-  timestamp: 'Jan-16-2023 15:29:47'
+  timestamp: 'Jan-17-2023 14:30:25'
+}
+{
+  message: 'Please Authenticate',
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:30:25'
+}
+{
+  message: 'Please Authenticate',
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:30:25'
+}
+{
+  message: 'Please Authenticate',
+  level: 'error',
+  label: 'c-kart',
+  timestamp: 'Jan-17-2023 14:30:26'
 }

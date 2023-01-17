@@ -4,26 +4,27 @@ import Navbar from "./Navbar";
 import "./Menu.css";
 import Axios from "axios";
 import { message, Table } from "antd";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { api } from "./Api";
 
 const columns = [
   {
-      title: 'Sl No.',
-      dataIndex: 'id',
-      key: 'id'
-  },  
-  {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
+    title: "Sl No.",
+    dataIndex: "id",
+    key: "id",
   },
   {
-      title: 'Path',
-      dataIndex: 'path',
-      key: 'path',
-      render: (text, record) => <a href={'file://' + record.path}>{text}</a>
-  }
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Path",
+    dataIndex: "path",
+    key: "path",
+    render: (text, record) => <a href={"file://" + record.path}>{text}</a>,
+  },
 ];
 
 function Upload() {
@@ -37,25 +38,24 @@ function Upload() {
   };
 
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
   const config = { headers: { "Content-Type": "multipart/form-data" } };
 
   const cookies = new Cookies();
   const addToList = (e) => {
-
     e.preventDefault();
 
-     Axios.post(
-      "http://localhost:4000/upload",
+    Axios.post(
+      `${api}upload`,
       {
         // token: cookies.get('token'),
-        file
+        file,
       },
       config
-    ).then(function (response) {
+    )
+      .then(function (response) {
         message.success(`${response.data}`);
-        
       })
       .catch(function (error) {
         message.error(`${error.response.data.message}`);
@@ -91,74 +91,69 @@ function Upload() {
   useEffect(() => {
     document.title = "Upload";
 
-    Axios.get("http://localhost:4000/view").then((res) => {
-
-      for(let i = 0; i < res.data.length; i++)
-        setData(data => [...data, res.data[i]]);
-
-    }).catch(function (error) {
-      message.error(`${error.response.data.message}`);
-    });
-
+    Axios.get(`${api}view`)
+      .then((res) => {
+        for (let i = 0; i < res.data.length; i++)
+          setData((data) => [...data, res.data[i]]);
+      })
+      .catch(function (error) {
+        message.error(`${error.response.data.message}`);
+      });
   }, []);
 
   const navigate = useNavigate();
 
-  const token = cookies.get('token');
-  const [valid, setValid] = useState(false)
+  const token = cookies.get("token");
+  const [valid, setValid] = useState(false);
 
-    useEffect(() => {
-
-    Axios.post('http://localhost:4000/check', {
-      token: cookies.get('token')
-    }).then((res) => {
-      if(res.data.y8a3 === 'LMOFNINCNOI') {
-        setValid(false)
-        navigate('/login');
-      }else{
-        setValid(true)
-      }
-    }).catch(() => {
-      setValid(false)
-      navigate('/login');
-    });
-
-      setInterval(() => {
-        
-        if(!cookies.get('token')  || cookies.get('token') != token) {
-          
-          Axios.post('http://localhost:4000/logout', {
-            token
-          }).then(() => {
-            cookies.remove('token');
-            navigate("/login");
-            window.location.reload();
-          });
-
+  useEffect(() => {
+    Axios.post(`${api}check`, {
+      token: cookies.get("token"),
+    })
+      .then((res) => {
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          setValid(false);
+          navigate("/login");
+        } else {
+          setValid(true);
         }
+      })
+      .catch(() => {
+        setValid(false);
+        navigate("/login");
+      });
+
+    setInterval(() => {
+      if (!cookies.get("token") || cookies.get("token") != token) {
+        Axios.post(`${api}logout`, {
+          token,
+        }).then(() => {
+          cookies.remove("token");
+          navigate("/login");
+          window.location.reload();
+        });
+      }
     }, 1000);
 
     setInterval(() => {
-        
-      Axios.post('http://localhost:4000/check', {
-        token: cookies.get('token')
+      Axios.post(`${api}check`, {
+        token: cookies.get("token"),
       }).then((res) => {
-        if(res.data.y8a3 === 'LMOFNINCNOI') {
-          cookies.remove('token');
+        if (res.data.y8a3 === "LMOFNINCNOI") {
+          cookies.remove("token");
           navigate("/login");
           window.location.reload();
         }
       });
     }, 2000);
-
   }, []);
 
-  return (
-    valid?<>
+  return valid ? (
+    <>
       <Navbar />
       <div className="menu row pt-4 mt-4 ml-3 pb-3">
         <form onSubmit={addToList}>
-        <input type="file" onChange={handleChange} />
+          <input type="file" onChange={handleChange} />
           {file &&
           !(
             file.name.endsWith(".jpg") ||
@@ -181,9 +176,10 @@ function Upload() {
         </form>
 
         <Table columns={columns} dataSource={data} />
-
       </div>
-    </>:<></>
+    </>
+  ) : (
+    <></>
   );
 }
 

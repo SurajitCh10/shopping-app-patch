@@ -5,24 +5,25 @@ import Button from "@mui/material/Button";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { message } from "antd";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 import { inputValidator } from "./Validator";
 import { emailValidator } from "./Validator";
+import { api } from "./Api";
 
 function Register() {
-
   const [csrf, setCsrf] = useState();
 
   useEffect(() => {
     document.title = "Register";
-    
-    Axios.get('http://localhost:4000/csrf').then((res) => {
-      setCsrf(res.data.csrf);
-      console.log(res.data.csrf)
-    }).catch((error) => {
-      message.error(`${error.response.data.message}`);
-    });
 
+    Axios.get(`${api}csrf`)
+      .then((res) => {
+        setCsrf(res.data.csrf);
+        console.log(res.data.csrf);
+      })
+      .catch((error) => {
+        message.error(`${error.response.data.message}`);
+      });
   }, []);
 
   const navigate = useNavigate();
@@ -62,11 +63,16 @@ function Register() {
       return;
     }
 
-    const config = { headers: { "Content-Type": "application/json", "Authorization": "Bearer " + csrf} };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + csrf,
+      },
+    };
     const cookies = new Cookies();
 
     Axios.post(
-      "http://localhost:4000/register",
+      `${api}register`,
       {
         name: name,
         email: email,
@@ -77,10 +83,10 @@ function Register() {
     )
       .then(function (response) {
         message.success("Registered successfully");
-        cookies.set('token', response.data.token, {path: '/'});
+        cookies.set("token", response.data.token, { path: "/" });
 
         setTimeout(function () {
-          navigate('/')
+          navigate("/");
         }, 1000);
       })
       .catch(function (error) {

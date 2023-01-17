@@ -6,12 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
 import { message } from "antd";
+import { api } from "./Api";
 
 function Navbar() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const addToList = () => {
-    Axios.post("http://localhost:4000/logout", {
+    Axios.post(`${api}logout`, {
       // withCredentials: true,
       // headers: {
       //   'Authorization': 'Bearer ' + cookies.get('token')
@@ -26,8 +27,6 @@ function Navbar() {
         setTimeout(function () {
           window.location.reload();
         }, 1000);
-
-
       })
       .catch(function (error) {
         message.error(`${error.response.data.message}`);
